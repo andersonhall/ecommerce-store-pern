@@ -10,6 +10,7 @@ import users from "./routes/users.js";
 import products from "./routes/products.js";
 import carts from "./routes/carts.js";
 import checkout from "./routes/checkout.js";
+import orders from "./routes/orders.js";
 import "./passportConfig.js";
 
 app.use(express.json());
@@ -35,3 +36,4 @@ app.use("/users", users);
 app.use("/products", products);
 app.use("/carts", carts);
 app.use("/checkout", checkout);
+app.use("/orders", orders);
