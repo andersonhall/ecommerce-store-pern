@@ -7,6 +7,7 @@ import register from "./routes/register.js";
 import login from "./routes/login.js";
 import logout from "./routes/logout.js";
 import users from "./routes/users.js";
+import products from "./routes/products.js";
 import "./passportConfig.js";
 
 app.use(express.json());
@@ -29,3 +30,4 @@ app.use("/register", register);
 app.use("/login", login);
 app.use("/logout", logout);
 app.use("/users", users);
+app.use("/products", products);
