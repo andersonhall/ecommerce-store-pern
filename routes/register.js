@@ -18,16 +18,17 @@ router.post("/", async (req, res) => {
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    const newUser = await db.query(
-      "INSERT INTO users (username, password, first_name, last_name, created_at) VALUES ($1, $2, $3, $4, now()) RETURNING *",
+    const user = await db.query(
+      "INSERT INTO users (username, password, first_name, last_name, created_at) VALUES ($1, $2, $3, $4, now()) RETURNING id, username",
       [username, hashedPassword, first_name, last_name]
     );
-    req.login(newUser.rows[0], (err) => {
+    req.login(user.rows[0], (err) => {
       if (err) {
         return next(err);
       }
-      res.status(201).json({ message: "User registered." });
     });
+    console.log(req.user);
+    res.status(201).json({ message: "User registered." });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
