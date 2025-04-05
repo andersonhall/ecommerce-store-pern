@@ -1,0 +1,378 @@
+swagger: '2.0'
+info:
+  contact: {}
+  title: Ecommerce API
+  version: 1.0.0
+host: localhost
+basePath: /
+schemes:
+  - http
+paths:
+  /carts:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          schema:
+            properties:
+              user_id:
+                example: 11
+                type: number
+            type: object
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Carts
+      description: Create Cart
+      operationId: createCart
+      summary: Create Cart
+  /carts/{cartId}:
+    parameters:
+      - in: path
+        name: cartId
+        required: true
+        type: string
+    delete:
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Carts
+      description: Delete Cart
+      operationId: deleteCart
+      summary: Delete Cart
+    get:
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Carts
+      description: Get Cart By Id
+      operationId: getCartById
+      summary: Get Cart By Id
+  /carts/{cartId}/{productId}:
+    parameters:
+      - in: path
+        name: cartId
+        required: true
+        type: string
+      - in: path
+        name: productId
+        required: true
+        type: string
+    delete:
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          schema:
+            properties:
+              product_id:
+                example: 13
+                type: number
+            type: object
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Carts
+      description: Remove Item from Cart
+      operationId: removeItemFromCart
+      summary: Remove Item from Cart
+    post:
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Carts
+      description: Add to Cart
+      operationId: addToCart
+      summary: Add to Cart
+  /checkout/{cartId}:
+    parameters:
+      - in: path
+        name: cartId
+        required: true
+        type: string
+    post:
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Orders
+      description: Checkout (Create Order)
+      operationId: checkoutCreateOrder
+      summary: Checkout (Create Order)
+  /login:
+    post:
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - in: formData
+          name: password
+          type: string
+        - in: formData
+          name: username
+          type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Auth
+      description: Login
+      operationId: login
+      summary: Login
+  /logout:
+    post:
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Auth
+      description: Logout
+      operationId: logout
+      summary: Logout
+  /orders/user/{userId}:
+    parameters:
+      - in: path
+        name: userId
+        required: true
+        type: string
+    get:
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Orders
+      description: Get Orders by User Id
+      operationId: getOrdersByUserId
+      summary: Get Orders by User Id
+  /orders/{orderId}:
+    parameters:
+      - in: path
+        name: orderId
+        required: true
+        type: string
+    get:
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Orders
+      description: Get Order By Id
+      operationId: getOrderById
+      summary: Get Order By Id
+  /products:
+    get:
+      parameters:
+        - in: query
+          name: category
+          type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Products
+      description: Get Products By Category
+      operationId: getProductsByCategory
+      summary: Get Products By Category
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          schema:
+            properties:
+              categories:
+                example:
+                  - 2
+                  - 6
+                items:
+                  example: 2
+                  type: number
+                type: array
+              price:
+                example: 5.99
+                type: number
+              product_desc:
+                example: test desc
+                type: string
+              product_name:
+                example: pnametest
+                type: string
+              sku:
+                example: f
+                type: string
+            type: object
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Products
+      description: Create Product
+      operationId: createProduct
+      summary: Create Product
+  /products/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+    delete:
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Products
+      description: Delete Product
+      operationId: deleteProduct
+      summary: Delete Product
+    get:
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Products
+      description: Get Product By ID
+      operationId: getProductById
+      summary: Get Product By ID
+    put:
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          schema:
+            properties:
+              price:
+                example: 6.97
+                type: number
+              product_desc:
+                example: test desscc
+                type: string
+              product_name:
+                example: test
+                type: string
+              sku:
+                example: asdf
+                type: string
+            type: object
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Products
+      description: Update Product
+      operationId: updateProduct
+      summary: Update Product
+  /register:
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          schema:
+            properties:
+              first_name:
+                example: Andy
+                type: string
+              last_name:
+                example: Hall
+                type: string
+              password:
+                example: secret-password123
+                type: string
+              username:
+                example: vdgdfs
+                type: string
+            type: object
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Auth
+      description: Register
+      operationId: register
+      summary: Register
+  /users:
+    get:
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Users
+      description: Get Users
+      operationId: getUsers
+      summary: Get Users
+  /users/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        type: string
+    delete:
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Users
+      description: Delete User
+      operationId: deleteUser
+      summary: Delete User
+    get:
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Users
+      description: Get User By ID
+      operationId: getUserById
+      summary: Get User By ID
+    put:
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - in: formData
+          name: first_name
+          type: string
+        - in: formData
+          name: last_name
+          type: string
+        - in: formData
+          name: password
+          type: string
+        - in: formData
+          name: username
+          type: string
+      responses:
+        '200':
+          description: ''
+      tags:
+        - Users
+      description: Update User
+      operationId: updateUser
+      summary: Update User
+tags:
+  - name: Products
+  - name: Users
+  - name: Carts
+  - name: Orders
+  - name: Auth
