@@ -1,10 +1,12 @@
-const express = require("express");
+import express from "express";
 const app = express();
 const port = process.env.SERVER_PORT;
-const session = require("express-session");
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
+import session from "express-session";
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+import users from "./routes/users.js";
 
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //Middleware
@@ -19,7 +21,7 @@ app.use(
 app.use(passport.initialize()); // init passport on every route call
 app.use(passport.session()); //allow passport to use "express-session"
 
-authUser = (user, password, done) => {
+const authUser = (user, password, done) => {
   console.log(`Value of "User" in authUser function ----> ${user}`); //passport will populate, user = req.body.username
   console.log(`Value of "Password" in authUser function ----> ${password}`); //passport will popuplate, password = req.body.password
 
@@ -77,3 +79,5 @@ app.post(
 app.get("/store", (req, res) => {
   res.send("store");
 });
+
+app.use("/users", users); // Mount the users router on the /users path
