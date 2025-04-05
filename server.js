@@ -3,6 +3,9 @@ const app = express();
 const port = process.env.SERVER_PORT;
 import session from "express-session";
 import passport from "passport";
+import register from "./routes/register.js";
+import login from "./routes/login.js";
+import logout from "./routes/logout.js";
 import users from "./routes/users.js";
 import "./passportConfig.js";
 
@@ -22,20 +25,7 @@ app.use(passport.session()); //allow passport to use "express-session"
 
 app.listen(port, () => console.log(`Server listening on port ${port}...`));
 
-app.get("/login", (req, res) => {
-  res.send("login");
-});
-
-app.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/store",
-    failureRedirect: "/login",
-  })
-);
-
-app.get("/store", (req, res) => {
-  res.send("store");
-});
-
-app.use("/users", users); // Mount the users router on the /users path
+app.use("/register", register);
+app.use("/login", login);
+app.use("/logout", logout);
+app.use("/users", users);
