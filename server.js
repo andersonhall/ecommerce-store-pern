@@ -1,6 +1,7 @@
 import express from "express";
 const app = express();
 const port = process.env.SERVER_PORT;
+import cors from "cors";
 import session from "express-session";
 import passport from "passport";
 import register from "./routes/register.js";
@@ -13,6 +14,13 @@ import checkout from "./routes/checkout.js";
 import orders from "./routes/orders.js";
 import "./passportConfig.js";
 
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+    methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -21,6 +29,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
+    cookie: { secure: false, httpOnly: true },
   })
 );
 

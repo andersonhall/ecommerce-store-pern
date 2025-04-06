@@ -2,8 +2,22 @@ import passport from "passport";
 import { Router } from "express";
 const router = Router();
 
-router.post("/", passport.authenticate("local"), (req, res) => {
-  res.json({ message: "Login successful" });
+router.post("/", (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    req.session.messages = [];
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.status(401).json({ message: info.message }); // Send info message to client
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err);
+      }
+      return res.status(200).json({ message: "Login successful" });
+    });
+  })(req, res, next);
 });
 
 export default router;
