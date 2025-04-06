@@ -1,3 +1,7 @@
+.errorMessage {
+  color: red;
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -5,6 +9,11 @@ form {
   margin: 0 auto;
   border: 1px solid gray;
   padding: 2rem 1rem;
+}
+
+.login-form-title {
+  font-size: 1.6rem;
+  margin-bottom: 2rem;
 }
 
 input,
@@ -21,7 +30,8 @@ label {
 }
 
 input[type="submit"] {
-  margin-top: 1rem;
+  margin: 1rem 0 2rem;
+  line-height: 1.6rem;
   background-color: rgb(100, 108, 255);
   color: white;
   border: 1px solid gray;

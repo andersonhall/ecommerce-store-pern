@@ -27,8 +27,7 @@ router.post("/", async (req, res) => {
         return next(err);
       }
     });
-    console.log(req.user);
-    res.status(201).json({ message: "User registered." });
+    res.status(201).json({ message: "User registered.", user: req.user });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
