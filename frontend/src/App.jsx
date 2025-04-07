@@ -1,27 +1,34 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router";
+import { useContext } from "react";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./screens/Home/Home";
 import Login from "./screens/Login/Login";
 import Register from "./screens/Register/Register";
 import Store from "./screens/Store/Store";
-import { AuthProvider } from "./context/authProvider";
+import { AuthContext } from "./context/authContext";
 
 function App() {
+  const { isAuthenticated } = useContext(AuthContext);
+
+  const PrivateRoutes = () => {
+    return isAuthenticated ? <Outlet /> : <Navigate to="/login" />;
+  };
+
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <Navbar />
-        <div className="container">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+    <BrowserRouter>
+      <Navbar />
+      <div className="container">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route element={<PrivateRoutes />}>
             <Route path="/store" element={<Store />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
-    </AuthProvider>
+          </Route>
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 

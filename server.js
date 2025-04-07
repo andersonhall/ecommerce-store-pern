@@ -45,11 +45,18 @@ app.use("/auth", (req, res) => {
   }
 });
 
+const auth = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    return res.status(403).send({ message: "User unauthorized" });
+  }
+  next();
+};
+
 app.use("/register", register);
 app.use("/login", login);
 app.use("/logout", logout);
-app.use("/users", users);
-app.use("/products", products);
-app.use("/carts", carts);
-app.use("/checkout", checkout);
-app.use("/orders", orders);
+app.use("/users", auth, users);
+app.use("/products", auth, products);
+app.use("/carts", auth, carts);
+app.use("/checkout", auth, checkout);
+app.use("/orders", auth, orders);
