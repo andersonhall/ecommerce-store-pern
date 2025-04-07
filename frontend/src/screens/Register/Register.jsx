@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router";
+import { AuthContext } from "../../context/authContext";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -9,6 +10,7 @@ const Register = () => {
   const [lastName, setLastName] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,6 +31,7 @@ const Register = () => {
           res.json().then((data) => {
             console.log(data.message);
             console.log(data.user);
+            login(username, password);
             navigate("/store");
           });
         } else {

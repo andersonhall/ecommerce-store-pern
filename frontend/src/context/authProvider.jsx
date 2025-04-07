@@ -42,15 +42,15 @@ export const AuthProvider = ({ children }) => {
         username,
         password,
       }),
-    }).then((res) => {
+    }).then(async (res) => {
       if (res.ok) {
-        return res.json().then((data) => {
+        return await res.json().then((data) => {
           console.log(data.message);
           setUser(data.user);
           setIsAuthenticated(true);
         });
       } else {
-        return res.json().then((data) => {
+        return await res.json().then((data) => {
           throw new Error(data.message);
         });
       }
