@@ -1,42 +1,24 @@
 import "./Login.css";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router";
+import { AuthContext } from "../../context/authContext";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const loginUrl = "http://localhost:3000/login";
-    await fetch(loginUrl, {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-    }).then(
-      (res) => {
-        if (res.ok) {
-          res.json().then((data) => {
-            console.log(data.message);
-            navigate("/store");
-          });
-        } else {
-          res.json().then((data) => {
-            console.error(data.message);
-            setError(data.message);
-          });
-        }
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
+    try {
+      await login(username, password);
+      navigate("/store");
+    } catch (error) {
+      setError(error.message);
+      console.error(error);
+    }
   };
   return (
     <form onSubmit={handleSubmit}>

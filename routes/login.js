@@ -4,8 +4,8 @@ const router = Router();
 
 router.post("/", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
-    req.session.messages = [];
     if (err) {
+      console.log("here");
       return next(err);
     }
     if (!user) {
