@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Home from "./screens/Home/Home";
 import Login from "./screens/Login/Login";
 import Register from "./screens/Register/Register";
+import Store from "./screens/Store/Store";
 import { AuthProvider } from "./context/authProvider";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/store" element={<Store />} />
           </Routes>
         </div>
       </BrowserRouter>
