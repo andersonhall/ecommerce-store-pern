@@ -6,6 +6,7 @@ import Home from "./screens/Home/Home";
 import Login from "./screens/Login/Login";
 import Register from "./screens/Register/Register";
 import Store from "./screens/Store/Store";
+import ProductDetails from "./screens/ProductDetails/ProductDetails";
 import { AuthContext } from "./context/authContext";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route element={<PrivateRoutes />}>
             <Route path="/store" element={<Store />} />
+            <Route path="/products/:id" element={<ProductDetails />} />
           </Route>
         </Routes>
       </div>

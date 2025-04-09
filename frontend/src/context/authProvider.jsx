@@ -60,15 +60,15 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     await fetch("http://localhost:3000/logout", {
       credentials: "include",
-    }).then((res) => {
+    }).then(async (res) => {
       if (res.ok) {
-        return res.json().then((data) => {
+        return await res.json().then((data) => {
           console.log(data.message);
           setUser(null);
           setIsAuthenticated(false);
         });
       } else {
-        return res.json().then((data) => {
+        return await res.json().then((data) => {
           throw new Error(data.message);
         });
       }

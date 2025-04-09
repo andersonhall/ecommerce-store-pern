@@ -28,11 +28,11 @@ const Register = () => {
     }).then(
       (res) => {
         if (res.ok) {
-          res.json().then((data) => {
+          res.json().then(async (data) => {
             console.log(data.message);
             console.log(data.user);
-            login(username, password);
-            navigate("/store");
+            await login(username, password);
+            return navigate("/store");
           });
         } else {
           res.json().then((data) => {

@@ -29,11 +29,11 @@ app.use(
     methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
   })
 );
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
 app.use(passport.initialize()); // init passport on every route call
 app.use(passport.session()); //allow passport to use "express-session"
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.listen(port, () => console.log(`Server listening on port ${port}...`));
 
