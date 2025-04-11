@@ -1,6 +1,6 @@
 import express from "express";
 import {
-  getCartById,
+  getCartByUserId,
   createCart,
   addToCart,
   removeFromCart,
@@ -9,7 +9,7 @@ import {
 
 const router = express.Router();
 
-router.get("/:cartId", getCartById);
+router.get("/:userId", getCartByUserId);
 router.post("/", createCart);
 router.delete("/:cartId/:productId", removeFromCart);
 router.post("/:cartId/:productId", addToCart);

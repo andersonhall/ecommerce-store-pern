@@ -1,10 +1,10 @@
 import db from "../config.js";
 
 // Get cart by id
-export const getCartById = async (req, res) => {
+export const getCartByUserId = async (req, res) => {
   try {
-    const cart = await db.query("SELECT * FROM cart WHERE id = $1", [
-      req.params.cartId,
+    const cart = await db.query("SELECT * FROM cart WHERE user_id = $1", [
+      req.params.userId,
     ]);
     res.json(cart.rows[0]);
   } catch (error) {
