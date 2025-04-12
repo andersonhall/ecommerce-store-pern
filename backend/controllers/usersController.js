@@ -1,4 +1,4 @@
-import db from "../config.js";
+import db from "../config/dbConfig.js";
 import bcrypt from "bcrypt";
 
 // Get all users

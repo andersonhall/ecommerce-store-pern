@@ -1,4 +1,4 @@
-import db from "../config.js";
+import db from "../config/dbConfig.js";
 
 // Get cart by id
 export const getCartByUserId = async (req, res) => {

@@ -1,4 +1,4 @@
-import db from "../config.js";
+import db from "../config/dbConfig.js";
 
 // Get order by id
 export const getOrderById = async (req, res) => {

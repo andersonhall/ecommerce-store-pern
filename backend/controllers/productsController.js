@@ -1,4 +1,4 @@
-import db from "../config.js";
+import db from "../config/dbConfig.js";
 
 // Get products (optionally by category)
 export const getProducts = async (req, res) => {

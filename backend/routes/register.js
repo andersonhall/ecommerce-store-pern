@@ -1,7 +1,7 @@
 import { Router } from "express";
 const router = Router();
 import bcrypt from "bcrypt";
-import db from "../db/config.js";
+import db from "../config/dbConfig.js";
 
 router.post("/", async (req, res) => {
   try {
@@ -9,20 +9,22 @@ router.post("/", async (req, res) => {
     if (!username || !password || !first_name || !last_name) {
       throw Error("Please fill out all fields");
     }
-    const existingUser = await db.query(
+    const findExistingUser = await db.query(
       "SELECT * FROM users WHERE username = $1",
       [username]
     );
-    if (existingUser.rows.length > 0) {
+    const existingUser = findExistingUser.rows[0];
+    if (existingUser) {
       throw Error("Username already exists");
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    const user = await db.query(
+    const userToInsert = await db.query(
       "INSERT INTO users (username, password, first_name, last_name, created_at) VALUES ($1, $2, $3, $4, now()) RETURNING id, username",
       [username, hashedPassword, first_name, last_name]
     );
-    req.login(user.rows[0], (err) => {
+    const user = userToInsert.rows[0];
+    req.login(user, (err) => {
       if (err) {
         return next(err);
       }

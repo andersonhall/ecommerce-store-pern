@@ -2,10 +2,6 @@ import { useState, useEffect } from "react";
 import { AuthContext } from "./authContext";
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem("user");
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     const storedAuth = localStorage.getItem("isAuthenticated");
     return storedAuth ? JSON.parse(storedAuth) : false;
@@ -17,17 +13,12 @@ export const AuthProvider = ({ children }) => {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(user));
-  }, [user]);
-
-  useEffect(() => {
     const checkAuth = async () => {
       try {
         await fetch("http://localhost:3000/auth")
           .then((res) => res.json())
           .then((data) => {
             if (data.isAuthenticated) {
-              setUser(data.user);
               setIsAuthenticated(true);
             }
           });
@@ -53,7 +44,6 @@ export const AuthProvider = ({ children }) => {
       if (res.ok) {
         return await res.json().then((data) => {
           console.log(data.message);
-          setUser(data.user);
           setIsAuthenticated(true);
         });
       } else {
@@ -71,7 +61,6 @@ export const AuthProvider = ({ children }) => {
       if (res.ok) {
         return await res.json().then((data) => {
           console.log(data.message);
-          setUser(null);
           setIsAuthenticated(false);
         });
       } else {
@@ -83,7 +72,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const value = {
-    user,
     isAuthenticated,
     loading,
     login,

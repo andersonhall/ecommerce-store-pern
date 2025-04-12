@@ -1,4 +1,4 @@
-import db from "../config.js";
+import db from "../config/dbConfig.js";
 
 // Checkout and save order
 export const checkout = async (req, res) => {
