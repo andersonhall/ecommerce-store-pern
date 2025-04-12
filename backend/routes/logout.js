@@ -3,7 +3,11 @@ const router = Router();
 
 router.get("/", (req, res) => {
   req.logout(() => {
-    res.json({ message: "Logout successful" });
+    req.session.destroy();
+    res
+      .status(200)
+      .clearCookie("connect.sid")
+      .json({ message: "Logout successful" });
   });
 });
 

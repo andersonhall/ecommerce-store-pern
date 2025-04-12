@@ -21,19 +21,22 @@ export const createCart = async (req, res) => {
       .status(401)
       .json({ message: "User must be authenticated to create cart" });
   }
-  const userHasCart = await db.query("SELECT * FROM cart WHERE user_id = $1", [
+  const findUserCart = await db.query("SELECT * FROM cart WHERE user_id = $1", [
     user.id,
   ]);
-  console.log(userHasCart.rows);
-  if (userHasCart.rows.length > 0) {
+  const userCart = findUserCart.rows[0];
+  if (userCart) {
+    req.session.cart = userCart;
     return res.status(400).json({ message: "Users may only have one cart" });
   }
   try {
-    const cart = await db.query(
+    const cartToInsert = await db.query(
       "INSERT INTO cart (user_id, created_at) VALUES ($1, now()) RETURNING *",
       [user.id]
     );
-    res.json(cart.rows[0]);
+    const newCart = cartToInsert.rows[0];
+    req.session.cart = newCart;
+    res.json(newCart);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error creating cart" });

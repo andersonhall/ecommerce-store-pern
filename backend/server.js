@@ -3,6 +3,7 @@ const app = express();
 const port = process.env.SERVER_PORT;
 import session from "express-session";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import register from "./routes/register.js";
 import login from "./routes/login.js";
 import logout from "./routes/logout.js";
@@ -15,6 +16,7 @@ import orders from "./routes/orders.js";
 
 app.listen(port, () => console.log(`Server listening on port ${port}...`));
 
+app.use(cookieParser());
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -22,10 +24,11 @@ app.use(
   session({
     resave: false,
     saveUninitialized: true,
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || "secret",
   })
 );
 
+app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/register", register);
