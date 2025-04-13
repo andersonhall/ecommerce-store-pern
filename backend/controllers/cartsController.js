@@ -1,6 +1,6 @@
 import db from "../config/dbConfig.js";
 
-// Get cart by id
+// Get cart by user id
 export const getCartByUserId = async (req, res) => {
   try {
     const cart = await db.query("SELECT * FROM cart WHERE user_id = $1", [
