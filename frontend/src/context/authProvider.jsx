@@ -6,11 +6,20 @@ export const AuthProvider = ({ children }) => {
     const storedAuth = localStorage.getItem("isAuthenticated");
     return storedAuth ? JSON.parse(storedAuth) : false;
   });
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     localStorage.setItem("isAuthenticated", JSON.stringify(isAuthenticated));
   }, [isAuthenticated]);
+
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(user));
+  }, [user]);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -40,18 +49,21 @@ export const AuthProvider = ({ children }) => {
         username,
         password,
       }),
-    }).then(async (res) => {
-      if (res.ok) {
-        return await res.json().then((data) => {
-          console.log(data.message);
-          setIsAuthenticated(true);
-        });
-      } else {
-        return await res.json().then((data) => {
-          throw new Error(data.message);
-        });
-      }
-    });
+    })
+      .then(async (res) => {
+        if (res.ok) {
+          return await res.json().then((data) => {
+            console.log(data.message);
+            setUser(data.user);
+            setIsAuthenticated(true);
+          });
+        } else {
+          return await res.json().then((data) => {
+            throw new Error(data.message);
+          });
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   const logout = async () => {
@@ -72,6 +84,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const value = {
+    user,
     isAuthenticated,
     loading,
     login,
