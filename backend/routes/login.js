@@ -19,9 +19,8 @@ router.post("/", passport.authenticate("local"), async (req, res) => {
     req.session.cart = { cart, items };
     return res
       .status(200)
-      .json({ message: "Login successful", cart: req.session.cart });
+      .json({ message: "Login successful", user: req.user });
   }
-
   res.status(200).json({ message: "Login successful" });
 });
 

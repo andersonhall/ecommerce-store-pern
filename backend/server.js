@@ -42,7 +42,7 @@ app.use("/orders", orders);
 
 app.get("/auth", (req, res) => {
   if (req.isAuthenticated()) {
-    res.json({ isAuthenticated: true });
+    res.json({ isAuthenticated: true, user: req.user });
   } else {
     res.json({ isAuthenticated: false });
   }
