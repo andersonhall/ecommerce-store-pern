@@ -31,14 +31,21 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+const auth = (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({ message: "Unauthorized request" });
+  }
+  next();
+};
+
 app.use("/register", register);
 app.use("/login", login);
 app.use("/logout", logout);
 app.use("/users", users);
-app.use("/products", products);
-app.use("/carts", carts);
-app.use("/checkout", checkout);
-app.use("/orders", orders);
+app.use("/products", auth, products);
+app.use("/carts", auth, carts);
+app.use("/checkout", auth, checkout);
+app.use("/orders", auth, orders);
 
 app.get("/auth", (req, res) => {
   if (req.isAuthenticated()) {

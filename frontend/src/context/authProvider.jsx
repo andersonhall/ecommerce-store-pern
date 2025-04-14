@@ -73,6 +73,7 @@ export const AuthProvider = ({ children }) => {
       if (res.ok) {
         return await res.json().then((data) => {
           console.log(data.message);
+          localStorage.clear();
           setIsAuthenticated(false);
         });
       } else {

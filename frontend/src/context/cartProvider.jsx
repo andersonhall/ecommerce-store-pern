@@ -7,21 +7,32 @@ export const CartProvider = ({ children }) => {
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
-    const fetchCart = async (user) => {
-      await fetch(`http://localhost:3000/carts/${user}`, {
-        credentials: "include",
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setCart(data);
-        });
-    };
-    fetchCart(user);
+    if (user) {
+      const fetchCart = async (user) => {
+        await fetch(`http://localhost:3000/carts/${user}`, {
+          credentials: "include",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setCart(data.cart);
+          });
+      };
+      fetchCart(user);
+    }
   }, [user]);
 
+  const getCartQuantity = () => {
+    if (cart) {
+      let cartQuantity = 0;
+      for (let item of cart) {
+        cartQuantity += item.quantity;
+      }
+      return cartQuantity;
+    }
+  };
   const value = {
     cart,
+    getCartQuantity,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

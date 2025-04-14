@@ -3,10 +3,11 @@ import db from "../config/dbConfig.js";
 // Get cart by user id
 export const getCartByUserId = async (req, res) => {
   try {
-    const cart = await db.query("SELECT * FROM cart WHERE user_id = $1", [
-      req.params.userId,
-    ]);
-    res.json(cart.rows[0]);
+    const cart = await db.query(
+      "SELECT * FROM cart c JOIN cart_item ci on c.id = ci.cart_id WHERE c.user_id = $1",
+      [req.params.userId]
+    );
+    res.json({ cart: cart.rows });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error retrieving cart" });
