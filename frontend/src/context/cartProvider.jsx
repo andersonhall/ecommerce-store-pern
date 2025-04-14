@@ -14,7 +14,8 @@ export const CartProvider = ({ children }) => {
         })
           .then((res) => res.json())
           .then((data) => {
-            setCart(data.cart);
+            console.log(data);
+            setCart(data);
           });
       };
       fetchCart(user);
@@ -24,12 +25,17 @@ export const CartProvider = ({ children }) => {
   const getCartQuantity = () => {
     if (cart) {
       let cartQuantity = 0;
-      for (let item of cart) {
+      for (let item of cart.items) {
         cartQuantity += item.quantity;
       }
       return cartQuantity;
     }
   };
+
+  // const addToCart = async (productId) => {
+  //   await fetch(`http://localhost:3000/carts/${cart.id}`)
+  // }
+
   const value = {
     cart,
     getCartQuantity,

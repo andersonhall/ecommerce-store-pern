@@ -53,7 +53,8 @@ export const AuthProvider = ({ children }) => {
       .then(async (res) => {
         if (res.ok) {
           return await res.json().then((data) => {
-            console.log(data.message);
+            localStorage.setItem("isAuthenticated", true);
+            localStorage.setItem("user", JSON.stringify(data.user));
             setUser(data.user);
             setIsAuthenticated(true);
           });
